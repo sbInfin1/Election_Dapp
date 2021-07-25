@@ -77,6 +77,7 @@ class App extends Component {
     .on('transactionhash', () => {
       console.log("successsfully ran");
     });
+    window.location.reload();
     // this.setState({ loaded: true });
   };
 
