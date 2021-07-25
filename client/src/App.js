@@ -34,8 +34,6 @@ class App extends Component {
 
       this.candidateVoted = 0;
 
-      // this.myFunction();
-
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({ loaded: true });
@@ -48,37 +46,14 @@ class App extends Component {
     }
   };
 
-  myFunction = async () => {
-    this.candidate1 = await this.election.methods.candidates(1).call();
-    this.candidate2 = await this.election.methods.candidates(2).call();
-    this.candidate1Name = this.candidate1.name;
-    console.log(this.candidate1Name);
-    console.log(this.candidate1);
-    console.log(this.candidate2);
-  };
-
   voteCandidate = async(candidateId) => {
 
-    // try {
-    //   let result = await this.election.methods
-    //   .vote(candidateId)
-    //   .send({from: this.currentAccount});
-    // } catch(e) {
-    //     console.log(e);
-    // }
-
-    // this.setState({ loaded: false });
     let result = await this.election.methods
     .vote(candidateId)
-    .send({from: this.currentAccount})
+    .send({from: this.currentAccount});
 
-    // console.log(result);
-
-    .on('transactionhash', () => {
-      console.log("successsfully ran");
-    });
     window.location.reload();
-    // this.setState({ loaded: true });
+    console.log(result);
   };
 
   onchange = (e) => {
@@ -87,9 +62,7 @@ class App extends Component {
   };
 
   onsubmit = () => {
-      // e.preventDefault();
       console.log("candidateVoted: ", this.candidateVoted);
-      // console.log("CandidateVoted.id: ", candidateVoted.id);
       const candId = Number(this.candidateVoted);
       console.log("candId: ", candId);
       if(candId === 1 || candId === 2){
