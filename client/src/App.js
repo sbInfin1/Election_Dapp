@@ -67,17 +67,17 @@ class App extends Component {
     //     console.log(e);
     // }
 
-    this.setState({ loaded: false });
+    // this.setState({ loaded: false });
     let result = await this.election.methods
     .vote(candidateId)
-    .send({from: this.currentAccount});
+    .send({from: this.currentAccount})
 
-    console.log(result);
+    // console.log(result);
 
-    // .on('transactionhash', () => {
-    //   console.log("successsfully ran");
-    // });
-    this.setState({ loaded: true });
+    .on('transactionhash', () => {
+      console.log("successsfully ran");
+    });
+    // this.setState({ loaded: true });
   };
 
   onchange = (e) => {
@@ -118,17 +118,17 @@ class App extends Component {
           candidate2={this.candidate2} />
         </div>
 
-        <form onSubmit={this.onsubmit}>
-            <div className="mb-3">
-                {/* <label for="form-select" className="form-label">Cast Your Vote</label> */}
-                <select id="form-select" className="form-select" onChange={this.onchange}>
-                    <option defaultValue>Select</option>
-                    <option value="1">{ this.candidate1.name }</option>
-                    <option value="2">{ this.candidate2.name }</option>
-                </select>
-            </div>
-            <button type="submit" className="btn btn-primary">Vote</button>
-        </form>
+        {/* <form onSubmit={this.onsubmit}> */}
+        <div className="mb-3">
+            {/* <label for="form-select" className="form-label">Cast Your Vote</label> */}
+            <select id="form-select" className="form-select" onChange={this.onchange}>
+                <option defaultValue>Select</option>
+                <option value="1">{ this.candidate1.name }</option>
+                <option value="2">{ this.candidate2.name }</option>
+            </select>
+        </div>
+        <button type="button" className="btn btn-primary" onClick={this.onsubmit}>Vote</button>
+        {/* </form> */}
         
       </div>
     );
