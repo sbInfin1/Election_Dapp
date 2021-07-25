@@ -3,54 +3,36 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Body = ({candidate1, candidate2}) => {
 
-    // const [candidateVoted, setCandidateVoted] = useState("");
-
     return (
-        <div className="mt-4 textcenter" style={{ color: "#000000"}}>
-            <h2>Election Results</h2>
-            <hr style={{
-                width: "70%",
-                borderStyle: "solid",
-                borderWidth: "2px",
-                bordercolor: "#000000",
-            }}/>
+        <div className="container mb-5 mt-3">
 
-            <div className="p-3 ml-auto mr-auto" style={{ width: "40%" }}>
-                <div className="row ml-auto mr-auto" style={{ width: "90%" }}>
-                    <div className="col">
-                        <p>#</p>
-                    </div>
-                    <div className="col">
-                        <p>Name</p>
-                    </div>
-                    <div className="col">
-                        <p>Votes</p>
-                    </div>
-                </div>
-                <hr style={{ width: "90%", borderStyle: "solid", bordercolor: "#000000" }}/>
-                <div className="row ml-auto mr-auto mt-2 mb-2" style={{ width: "90%" }}>
-                    <div className="col">
-                        <p>{ candidate1.id }</p>
-                    </div>
-                    <div className="col">
-                        <p>{ candidate1.name }</p>
-                    </div>
-                    <div className="col">
-                        <p>{ candidate1.voteCount }</p>
-                    </div>
-                </div>
-                <hr style={{ width: "90%", borderStyle: "solid", bordercolor: "#000000" }}/>
-                <div className="row ml-auto mr-auto mt-2 mb-2" style={{ width: "90%" }}>
-                    <div className="col">
-                        <p>{ candidate2.id }</p>
-                    </div>
-                    <div className="col">
-                        <p>{ candidate2.name }</p>
-                    </div>
-                    <div className="col">
-                        <p>{ candidate2.voteCount }</p>
-                    </div>
-                </div>
+            <div className="mb-5">
+                <h3>Welcome to Election Dapp</h3>
+                <h5>Please cast your vote</h5>
+            </div>
+            
+            <div className="d-flex justify-content-center">
+                <table class="table w-75">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Candidate Name</th>
+                            <th scope="col">Votes Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{ candidate1.id }</th>
+                            <td>{ candidate1.name }</td>
+                            <td>{ candidate1.voteCount }</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{ candidate2.id }</th>
+                            <td>{ candidate2.name }</td>
+                            <td>{ candidate2.voteCount }</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     )

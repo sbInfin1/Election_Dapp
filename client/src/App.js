@@ -79,30 +79,29 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand">Election Dapp</a>
-          
-          <ul className="navbar-nav">
-            <li className="nav-item text-white">Account address: {this.currentAccount}</li>
-          </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Election Dapp</a>
+
+            <span class="navbar-text">
+              Account address: {this.currentAccount}
+            </span>
+          </div>
         </nav>
 
-        <div className="container">
-          <Body candidate1={this.candidate1} 
-          candidate2={this.candidate2} />
-        </div>
+        <Body candidate1={this.candidate1} candidate2={this.candidate2} />
 
-        {/* <form onSubmit={this.onsubmit}> */}
-        <div className="mb-3">
-            {/* <label for="form-select" className="form-label">Cast Your Vote</label> */}
-            <select id="form-select" className="form-select" onChange={this.onchange}>
-                <option defaultValue>Select</option>
-                <option value="1">{ this.candidate1.name }</option>
-                <option value="2">{ this.candidate2.name }</option>
-            </select>
+        <div className="d-flex justify-content-center">
+          <div className="mb-3 w-50">
+              <select id="form-select" className="form-select" onChange={this.onchange}>
+                  <option defaultValue>Select</option>
+                  <option value="1">{ this.candidate1.name }</option>
+                  <option value="2">{ this.candidate2.name }</option>
+              </select>
+          </div>
         </div>
+        
         <button type="button" className="btn btn-primary" onClick={this.onsubmit}>Vote</button>
-        {/* </form> */}
         
       </div>
     );
