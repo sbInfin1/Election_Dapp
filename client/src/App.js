@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import ElectionContract from "./contracts/Election.json";
 import getWeb3 from "./getWeb3";
+// import Navbar from 'react-bootstrap/Navbar';
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./App.css";
+import Body from "./Body.js";
 
 class App extends Component {
   state = { loaded: false };
@@ -14,14 +18,20 @@ class App extends Component {
 
       // Use web3 to get the user's accounts.
       this.accounts = await this.web3.eth.getAccounts();
+      this.currentAccount = this.accounts[0];
 
       // Get the contract instance.
       this.networkId = await this.web3.eth.net.getId();
       const deployedNetwork = ElectionContract.networks[this.networkId];
-      this.instance = new this.web3.eth.Contract(
+      this.election = new this.web3.eth.Contract(
         ElectionContract.abi,
         deployedNetwork && deployedNetwork.address,
       );
+      console.log(this.election);
+
+      this.candidate1 = await this.election.methods.candidates(1).call();
+      this.candidate2 = await this.election.methods.candidates(2).call();
+      // this.myFunction();
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
@@ -35,23 +45,59 @@ class App extends Component {
     }
   };
 
+  myFunction = async () => {
+    this.candidate1 = await this.election.methods.candidates(1).call();
+    this.candidate2 = await this.election.methods.candidates(2).call();
+    this.candidate1Name = this.candidate1.name;
+    console.log(this.candidate1Name);
+    console.log(this.candidate1);
+    console.log(this.candidate2);
+  };
+
+  voteCandidate = async(candidateId) => {
+
+    try {
+      let result = await this.election.methods
+      .vote(candidateId)
+      .send({from: this.currentAccount});
+    } catch(e) {
+        console.log(e);
+    }
+
+    // this.setState({ loaded: false });
+    // let result = await this.election.methods
+    // .vote(candidateId)
+    // .send({from: this.currentAccount});
+
+    // console.log(result);
+
+    // .on('transactionhash', () => {
+    //   console.log("successsfully ran");
+    // });
+    // this.setState({ loaded: true });
+  };
+
   render() {
     if (!this.state.loaded) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
       <div className="App">
-        <h1>Election</h1>
-        <p>Your Truffle Box is installed and ready.</p>
-        <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
-        </p>
-        <p>
-          Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-        <div>The stored value is: {this.state.storageValue}</div>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a className="navbar-brand">Election Dapp</a>
+          
+          <ul className="navbar-nav">
+            <li className="nav-item text-white">Account address: {this.currentAccount}</li>
+          </ul>
+        </nav>
+
+        <div className="container">
+          <Body candidate1={this.candidate1} 
+          candidate2={this.candidate2} 
+          voteCandidate={this.voteCandidate}
+          account={this.currentAccount}/>
+        </div>
+        
       </div>
     );
   }
