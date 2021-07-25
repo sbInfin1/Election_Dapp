@@ -31,6 +31,9 @@ class App extends Component {
 
       this.candidate1 = await this.election.methods.candidates(1).call();
       this.candidate2 = await this.election.methods.candidates(2).call();
+
+      this.candidateVoted = 0;
+
       // this.myFunction();
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -56,25 +59,44 @@ class App extends Component {
 
   voteCandidate = async(candidateId) => {
 
-    try {
-      let result = await this.election.methods
-      .vote(candidateId)
-      .send({from: this.currentAccount});
-    } catch(e) {
-        console.log(e);
-    }
+    // try {
+    //   let result = await this.election.methods
+    //   .vote(candidateId)
+    //   .send({from: this.currentAccount});
+    // } catch(e) {
+    //     console.log(e);
+    // }
 
-    // this.setState({ loaded: false });
-    // let result = await this.election.methods
-    // .vote(candidateId)
-    // .send({from: this.currentAccount});
+    this.setState({ loaded: false });
+    let result = await this.election.methods
+    .vote(candidateId)
+    .send({from: this.currentAccount});
 
-    // console.log(result);
+    console.log(result);
 
     // .on('transactionhash', () => {
     //   console.log("successsfully ran");
     // });
-    // this.setState({ loaded: true });
+    this.setState({ loaded: true });
+  };
+
+  onchange = (e) => {
+      this.candidateVoted = e.target.value;
+      console.log(this.candidateVoted);
+  };
+
+  onsubmit = () => {
+      // e.preventDefault();
+      console.log("candidateVoted: ", this.candidateVoted);
+      // console.log("CandidateVoted.id: ", candidateVoted.id);
+      const candId = Number(this.candidateVoted);
+      console.log("candId: ", candId);
+      if(candId === 1 || candId === 2){
+          this.voteCandidate(candId);
+      }
+      else{
+          window.alert("Error occurred in submission.");
+      }
   };
 
   render() {
@@ -93,10 +115,20 @@ class App extends Component {
 
         <div className="container">
           <Body candidate1={this.candidate1} 
-          candidate2={this.candidate2} 
-          voteCandidate={this.voteCandidate}
-          account={this.currentAccount}/>
+          candidate2={this.candidate2} />
         </div>
+
+        <form onSubmit={this.onsubmit}>
+            <div className="mb-3">
+                {/* <label for="form-select" className="form-label">Cast Your Vote</label> */}
+                <select id="form-select" className="form-select" onChange={this.onchange}>
+                    <option defaultValue>Select</option>
+                    <option value="1">{ this.candidate1.name }</option>
+                    <option value="2">{ this.candidate2.name }</option>
+                </select>
+            </div>
+            <button type="submit" className="btn btn-primary">Vote</button>
+        </form>
         
       </div>
     );
